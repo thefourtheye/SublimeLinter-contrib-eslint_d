@@ -15,6 +15,10 @@ import os
 import re
 from SublimeLinter.lint import NodeLinter
 
+def get_config_file():
+    file_names = {'.eslintrc.js', '.eslintrc.yaml', '.eslintrc.yml',
+                  '.eslintrc.json', '.eslintrc', 'package.json'}
+    return next((n for n in file_names if os.path.isfile(n)), '.eslintrc')
 
 class Eslint_d(NodeLinter):
 
@@ -41,7 +45,7 @@ class Eslint_d(NodeLinter):
     selectors = {
         'html': 'source.js.embedded.html'
     }
-    config_file = ('--config', '.eslintrc', '~')
+    config_file = ('--config', get_config_file(), '~')
 
     def find_errors(self, output):
         """
