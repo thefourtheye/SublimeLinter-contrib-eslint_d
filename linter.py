@@ -15,10 +15,19 @@ import os
 import re
 from SublimeLinter.lint import NodeLinter
 
+
 def get_config_file():
-    file_names = {'.eslintrc.js', '.eslintrc.yaml', '.eslintrc.yml',
-                  '.eslintrc.json', '.eslintrc', 'package.json'}
-    return next((n for n in file_names if os.path.isfile(n)), '.eslintrc')
+    """
+    Get the valid configuration file, as per the list of configuration files supported by ESLint.
+
+    This function iterates through a list of valid file names and check if the file actually exists. If it
+    does then return its name. If none of the file names exist then return the default value .eslintrc.
+    Refer: http://eslint.org/docs/user-guide/configuring#configuration-file-formats.
+    """
+
+    file_names = ['.eslintrc.js', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc', 'package.json']
+    return next((name for name in file_names if os.path.isfile(name)), '.eslintrc')
+
 
 class Eslint_d(NodeLinter):
 
